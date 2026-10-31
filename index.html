@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bora ver Steel Ball Run?</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; background: linear-gradient(135deg, #17152b, #33204b);
+      color: white; font-family: Arial, sans-serif; text-align: center;
+    }
+    main { width: min(100%, 760px); }
+    h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin: 0 0 24px; }
+    .buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    button {
+      border: 0; border-radius: 12px; padding: 13px 34px; font-size: 1.15rem;
+      font-weight: bold; cursor: pointer; transition: transform .15s, filter .15s;
+    }
+    button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    #yes { background: #36c978; color: #102319; }
+    #no { background: #ef6474; color: #2b1015; }
+    #videoArea { margin-top: 26px; }
+    video {
+      display: block; width: 100%; max-height: 70vh; margin: 0 auto;
+      background: #080808; border-radius: 14px;
+    }
+    #hint { color: #d9d2e8; margin-top: 14px; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Bora ver steel ball run?</h1>
+    <div class="buttons">
+      <button id="yes" type="button">Sim</button>
+      <button id="no" type="button">Não</button>
+    </div>
+
+    <section id="videoArea" hidden>
+      <video id="player" controls loop playsinline preload="metadata">
+        Seu navegador não conseguiu reproduzir este vídeo.
+      </video>
+      <p id="hint"></p>
+    </section>
+  </main>
+
+  <script>
+    const player = document.getElementById("player");
+    const videoArea = document.getElementById("videoArea");
+    const hint = document.getElementById("hint");
+
+    function playVideo(fileName) {
+      player.pause();
+      player.src = "videos/" + fileName;
+      player.load();
+      videoArea.hidden = false;
+      player.play().catch(() => {
+        hint.textContent = "Toque no botão de reprodução do vídeo para começar.";
+      });
+    }
+
+    document.getElementById("yes").addEventListener("click", () => {
+      playVideo("sim.mp4");
+      hint.textContent = "";
+    });
+
+    document.getElementById("no").addEventListener("click", () => {
+      playVideo("nao.mp4");
+      hint.textContent = "O vídeo escolhido pelo botão Não aparecerá aqui.";
+    });
+  </script>
+</body>
+</html>
